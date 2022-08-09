@@ -15,8 +15,6 @@ module.exports = function (app, db) {
 
   app.route('/api/books')
     .get(async function (req, res) {
-      //response will be array of book objects
-      //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
       const booksCursor = await Book.find({}, { title: 1, comments: 1 });
       const parsed = await booksCursor.toArray();
       const withCount = parsed.map(book => {
@@ -42,7 +40,6 @@ module.exports = function (app, db) {
     })
 
     .delete(async function (req, res) {
-      //if successful response will be 'complete delete successful'
       const { acknowledged } = await Book.deleteMany({})
 
       if (acknowledged) {
